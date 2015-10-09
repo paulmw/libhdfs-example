@@ -1,19 +1,20 @@
 # About
 
-Example program of libhdfs, C++ library to handle HDFS (Hadoop Distributed File System).
+Example program of libhdfs, C(++) library to handle HDFS (Hadoop Distributed File System).
 
-# Install & Build libhdfs
+# Requirements
+This example is customized to run out of the box for CDH users using parcels. It should be run on an edge node that has development tools installed.
+
+# Compile & Run
 
 ```bash
-$ git clone git://github.com/apache/hadoop-hdfs.git
-$ cd hadoop-hdfs
-$ ant compile-c++-libhdfs -Dlibhdfs=1
-$ cd ..
+$ ./compile.sh
+$ ./exec.sh
 ```
-# Build & exec sample program
+
+# View the written file
 
 ```bash
-$ bash compile.sh
-$ bash exec.sh
+$ hadoop fs -cat /tmp/testfile.txt
 ```
 

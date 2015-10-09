@@ -1,5 +1,7 @@
 #include "jni.h"
 #include "hdfs.h"
+#include "string.h"
+#include "stdlib.h"
 
 int
 main(int argc, char **argv)
@@ -11,11 +13,12 @@ main(int argc, char **argv)
     fprintf(stderr, "Failed to open %s for writing!\n", writePath);
     exit(-1);
   }
-  const char* buffer = "Hello, World!";
-  tSize num_written_bytes = hdfsWrite(fs, writeFile, (void*)buffer, strlen(buffer)+1);
+  const char* buffer = "Hello, World!\n";
+  (void) hdfsWrite(fs, writeFile, (void*)buffer, strlen(buffer)+1);
   if (hdfsFlush(fs, writeFile)) {
-    fprintf(stderr, "Failed to 'flush' %s\n", writePath); 
+    fprintf(stderr, "Failed to 'flush' %s\n", writePath);
     exit(-1);
   }
   hdfsCloseFile(fs, writeFile);
+  return 0;
 }

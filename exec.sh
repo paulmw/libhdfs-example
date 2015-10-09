@@ -1,17 +1,23 @@
-export JAVA_HOME="/usr/lib/jvm/java-6-sun/"
-export HADOOP_SRC_HOME="./hadoop-hdfs/"
-export HADOOP_HOME="/usr/lib/hadoop/" # CDH
-export CXXFLAGS="-O2 -g -Wall -I$HADOOP_SRC_HOME/src/c++/libhdfs/ -I$JAVA_HOME/include/ -I$JAVA_HOME/include/linux/"
-export LDFLAGS="-L$HADOOP_SRC_HOME/build/c++/lib/ -lhdfs -L$JAVA_HOME/jre/lib/amd64/server/ -ljvm"
-export LD_LIBRARY_PATH="$HADOOP_SRC_HOME/build/c++/lib/:$JAVA_HOME/jre/lib/amd64/server/"
+#!/usr/bin/env bash
 
-CLASSPATH=./
-for f in $HADOOP_HOME/*.jar; do
+source /opt/cloudera/parcels/CDH/lib/bigtop-utils/bigtop-detect-javahome
+
+export HADOOP_HOME="/opt/cloudera/parcels/CDH/" # CDH
+export LD_LIBRARY_PATH="$HADOOP_HOME/lib64/:$JAVA_HOME/jre/lib/amd64/server/"
+
+CLASSPATH=/etc/hadoop/conf
+for f in $HADOOP_HOME/lib/hadoop-hdfs/*.jar; do
   CLASSPATH=${CLASSPATH}:$f;
 done
-for f in $HADOOP_HOME/lib/*.jar; do
+for f in $HADOOP_HOME/lib/hadoop-hdfs/lib/*.jar; do
+  CLASSPATH=${CLASSPATH}:$f;
+done
+for f in $HADOOP_HOME/lib/hadoop/*.jar; do
+  CLASSPATH=${CLASSPATH}:$f;
+done
+for f in $HADOOP_HOME/lib/hadoop/lib/*.jar; do
   CLASSPATH=${CLASSPATH}:$f;
 done
 export CLASSPATH=$CLASSPATH
 
-(echo r ; cat) | gdb a.out
+./test
